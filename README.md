@@ -1,5 +1,8 @@
-# NP Lab
-A repository of all the work done by Adithya Mallya(1NT18IS013) at NP Lab
+# Network Programming Lab
+A repository to document all the work done by 
+NAME : Adithya Mallya  
+USN : 1NT18IS013  
+BATCH : B1
 
 ## To run the programs :
 

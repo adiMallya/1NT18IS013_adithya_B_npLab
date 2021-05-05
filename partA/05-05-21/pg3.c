@@ -1,8 +1,8 @@
 #include<stdio.h>
 #include<string.h>
 
-char poly[100], gen[100], code[50], error;
-int poly_len,gen_len,i,j,flag = 0 ;
+char poly[100], gen[100], code[50];
+int poly_len,gen_len,i,j, err, flag = 0 ;
 
 
 void crc(){
@@ -65,6 +65,14 @@ void main(){
     printf("Coded polynomial : %s\n\n", poly);
     
     //introduce error
+    printf("Want to add error ? [1/0] : \n");
+    scanf("%d", &err);
+    if(err == 1){
+        printf("At which bit ? (0 - %d) : \n", poly_len+gen_len-1);
+        scanf("%d",&i);
+        poly[i] = (poly[i] == '0')? '1':'0';
+        printf("Message to be sent : %s\n", poly);
+    }
     
     //send coded polynomial to receiver
     printf("Receiver... \n\n");

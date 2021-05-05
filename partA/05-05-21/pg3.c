@@ -2,7 +2,7 @@
 #include<string.h>
 
 char poly[100], gen[100], code[50], error;
-int poly_len,gen_len,i,j;
+int poly_len,gen_len,i,j,flag = 0 ;
 
 
 void crc(){
@@ -10,22 +10,36 @@ void crc(){
         code[i] = poly[i];
     
     //polynomial divison
-    do{
-        for(j=1;j<gen_len;j++){
-            if(code[j] == gen[j])
-                code[j] = '0';
-            else
-                code[j] = '1';
+    do{ 
+        if(code[0] == '1'){
+            for(j=1;j<gen_len;j++){
+                if(code[j] == gen[j])
+                    code[j] = '0';
+                else
+                    code[j] = '1';
+            }
         }
         //copying remainder
         for(j = 0; j < gen_len-1; j++)
             code[j] = code[j+1];
-        //adding 0 from top
+        //adding next bit from top
         code[j] = poly[i++];
-    }while(i < poly_len);
+    }while(i <= poly_len+gen_len-1);
+}
+
+void receiver(){
+    printf("Data received : %s\n", poly);
+    //perform polynomial division with coded polynomial
+    crc();
+    //check for error
+    for(i=0; i< strlen(code); i++)
+        if(code[i]=='1')
+            flag = 1;
+    flag == 1 ? printf("Received data has error !\n"): printf("No errors in data.\n");
 }
 
 void main(){
+    printf("Sender... \n\n");
     printf("Enter the polynomial : \n");
     scanf("%s",poly);
     
@@ -43,11 +57,17 @@ void main(){
     //perform polynomial division
     crc();
     
-    //coded polynomial
+    //Senders coded polynomial
     for(i = poly_len; i < poly_len+gen_len-1; i++)
         poly[i] = code[i - poly_len];
         
     printf("CRC : %s\n", code);
-    printf("Coded polynomial : %s\n", poly);
+    printf("Coded polynomial : %s\n\n", poly);
+    
+    //introduce error
+    
+    //send coded polynomial to receiver
+    printf("Receiver... \n\n");
+    receiver();
 
 }
